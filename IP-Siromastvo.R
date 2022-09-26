@@ -16,7 +16,7 @@ IPplotgg<- ggplot(
   siromastvo %>%
     filter(
       trimws(Starost) %in% c("Ukupno stanovništvo", "65-74 godina","75 i više godina"),
-      Medijana == 50,
+      Medijana == 60,
       Pol != "ukupno"
     ),
   aes(
