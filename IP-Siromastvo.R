@@ -25,7 +25,7 @@ IPplotgg<- ggplot(
     group = Pol,
     col = Pol,
     text = sprintf(
-      "%s - %s. god.<br><b>%s%% </b>siromašnih %s %s ",
+      "%s - %s. god.<br><b>%s%% </b> %s %s ",
       Geo,
       God,
       format(Vrednost, decimal.mark = ","),
@@ -37,7 +37,7 @@ IPplotgg<- ggplot(
   scale_y_continuous(
   labels = function(x)
     paste0(x, "%")
-)  + geom_line() + facet_grid(Geo ~ Starost) + ylab("Udeo siromašnih") + theme_minimal() +
+)  + geom_line() + facet_grid(Geo ~ Starost) + ylab("Stopa rizika od siromaštva") + theme_minimal() +
   xlab(NULL)
 
 
