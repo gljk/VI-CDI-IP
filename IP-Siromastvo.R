@@ -7,8 +7,6 @@ siromastvo<- read.xlsx("IP-Siromastvo.xlsx")
 
 siromastvo<- siromastvo %>% gather(God,Vrednost,5:12)
 siromastvo$Starost[siromastvo$Starost== ' Ukupno '] <- "Ukupno stanovništvo"
-
-ggplot(siromastvo %>% filter(trimws(Starost) %in% c("Ukupno stanovništvo", "65 i više godina","75 i više godina"))) + geom_bar(stat = "identity",aes(x=God, y=Vrednost, fill=Geo))
 siromastvo$Starost <- as.factor(siromastvo$Starost)
 siromastvo$Starost<- relevel(siromastvo$Starost,"Ukupno stanovništvo")
 
@@ -22,7 +20,8 @@ IPplotgg<- ggplot(
   aes(
     x = God,
     y = Vrednost,
-    group = Pol,
+    group = Geo,
+    linetype=Geo,
     col = Pol,
     text = sprintf(
       "%s - %s. god.<br><b>%s%% </b> %s %s ",
@@ -33,15 +32,14 @@ IPplotgg<- ggplot(
       ifelse(Starost == "Ukupno stanovništvo", "", "starijih od 65 godina")
     )
   )
-) + scale_color_manual(values = c("#377eb8", "#e41a1c"))+
+) + scale_color_manual(values = c("#377eb8", "#e41a1c"))+scale_linetype_manual(values = c("dashed", "solid"),guide="none")+
   scale_y_continuous(
   labels = function(x)
     paste0(x, "%")
-)  + geom_line() + facet_grid(Geo ~ Starost) + ylab("Stopa rizika od siromaštva") + theme_minimal() +
-  xlab(NULL)
+)  + geom_line()  + ylab("Stopa rizika od siromaštva") + theme_minimal() +
+  xlab(NULL)+facet_wrap(~Starost,ncol = 1, nrow = 3)
 
 
 IPplotly <- ggplotly(IPplotgg, tooltip = "text")
-IPplotly
-
+IPplotly %>% layout(legend=list(title="a"))
 
